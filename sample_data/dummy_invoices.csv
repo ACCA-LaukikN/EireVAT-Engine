@@ -1,0 +1,18 @@
+file,type,counterparty,counterparty_vat_no,invoice_number,date,supply_type,reverse_charge,vat_rate_id,net_amount,vat_on_invoice,doc_total,note
+Invoice_1.jpeg,purchase,Lakeside Office Supplies Ltd,,INV-2026-0451,2026-11-02,domestic,N,1,100.0,23.0,123.0,Same supplier/number as the earlier sample invoice - skipped as duplicate if already loaded
+Invoice_2.jpeg,purchase,Galway Hardware and Tools,,GH-2026-102,2026-05-04,domestic,N,1,200.0,46.0,359.5,"ASSUMED SPLIT: invoice shows net 300, VAT at 23% and 13.5%, total 359.50 - only a 200/100 split fits"
+Invoice_2.jpeg,purchase,Galway Hardware and Tools,,GH-2026-102,2026-05-04,domestic,N,2,100.0,13.5,359.5,second rate line of the same invoice
+Invoice_3.jpeg,purchase,Dublin Software Solutions,,DSS-9921,2026-05-06,domestic,N,1,850.0,195.5,1045.5,
+Invoice_4.jpeg,purchase,Atlantic Seafood Exports,,EXP-2026-01,2026-05-08,domestic,N,5,2500.0,0.0,2500.0,Zero-rated; billed to Demo Traders so treated as a purchase
+Invoice_11_to_15 #5,purchase,Berlin Cloud Services GmbH,DE123456789,BCS-DE-883,2026-05-10,intra_eu,Y,1,1500.0,,1500.0,ASSUMED DATE (image garbled; sequence suggests 10 May). Reverse charge: VAT 345.00 self-assessed at 23%. EU VAT no is made up
+Invoice_11_to_15 #6,purchase,Shannon Logistics & Freight,,SLF-4412,2026-05-12,domestic,N,2,320.0,43.2,363.2,13.5% as printed
+Invoice_11_to_15 #7,purchase,Emerald Publishing House,,EPH-2026-30,2026-05-14,domestic,N,5,180.0,0.0,180.0,Zero-rated books
+Invoice_11_to_15 #8,purchase,Paris Consulting SARL,FR12345678901,FA-PARIS-09,2026-05-16,intra_eu,Y,1,3200.0,,3200.0,Reverse charge: VAT 736.00 self-assessed at 23%. EU VAT no is made up
+Invoice_11_to_15 #9,purchase,West Coast Catering Supplies,,WCC-552,2026-05-18,domestic,N,1,150.0,34.5,457.0,"ASSUMED SPLIT: printed VAT summary is garbled; rebuilt from item lines (150 at 23%, 250 at 9% = VAT 57.00, total 457.00)"
+Invoice_11_to_15 #9,purchase,West Coast Catering Supplies,,WCC-552,2026-05-18,domestic,N,3,250.0,22.5,457.0,second rate line of the same invoice
+Invoice_11_to_15 #10,purchase,Connacht Agricultural Feed,,CAP-771,2026-05-20,domestic,N,4,1200.0,57.6,1257.6,"Livestock rate 4.8%; printed totals garbled, 1200 + 57.60 = 1257.60"
+Invoice_11_to_15 #11,purchase,St. Jude's Medical Clinic,,MED-2026-12,2026-05-22,domestic,N,6,500.0,0.0,500.0,Exempt supply
+Invoice_11_to_15 #12,purchase,Amsterdam Digital BV,NL123456789B01,AMS-DIG-99,2026-05-25,intra_eu,Y,1,800.0,,800.0,ASSUMED DATE (image shows 25/03; sequence suggests 25 May). Reverse charge: VAT 184.00. EU VAT no is made up
+Invoice_11_to_15 #13,purchase,Corrib Cleaners Ltd,,CCL-2026-90,2026-05-28,domestic,N,1,220.0,50.6,270.6,
+Invoice_11_to_15 #14,sale,Wild Atlantic Tourism Group,,DT-2026-001,2026-05-30,domestic,N,1,1800.0,414.0,2214.0,"ASSUMED: image has no invoice number or date, and 'Issued By' looks like 'Bill to'. Treated as a SALE by Demo Traders"
+Invoice_11_to_15 #15,sale,Madrid Software Solutions SL,ESB12345678,DT-2026-002,2026-05-31,intra_eu,N,5,4500.0,0.0,4500.0,ASSUMED: no invoice number or date on the image; treated as an intra-EU B2B SALE at 0%. EU VAT no is made up

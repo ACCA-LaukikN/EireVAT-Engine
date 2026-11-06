@@ -1,0 +1,6 @@
+stateDiagram-v2
+    [*] --> open: generate_vat_period()
+    open --> open: add_invoice() / add_transaction()
+    open --> open: generate_vat3_report() saves or updates the return
+    open --> filed: mark_period_filed()<br/>(needs a generated VAT3)
+    filed --> [*]: locked - no new transactions

@@ -4,7 +4,12 @@ Manages VAT filing periods for the Irish VAT3 compliance tool.
 
 Contains:
 - generate_vat_period(): creates a new bi-monthly VAT period with correct due date
+- mark_period_filed(): closes a period once its VAT3 has been generated and filed
 - check_overdue_periods(): flags any open periods past their Revenue due date
+
+Notes:
+- mark_period_filed() added, so filed periods stop showing up as overdue
+- generate_vat_period() now enforces the "must be the 1st of the month" rule
 """
 
 from datetime import datetime
@@ -18,7 +23,12 @@ def generate_vat_period(cursor, conn, business_id, period_start_str):
     in line with Irish Revenue ROS filing requirements.
     """
 
-    period_start = datetime.strptime(period_start_str, "%Y-%m-%d")
+    try:
+        period_start = datetime.strptime(period_start_str, "%Y-%m-%d")
+    except (TypeError, ValueError):
+        raise ValueError("Period start must be in YYYY-MM-DD format")
+    if period_start.day != 1:
+        raise ValueError("Period start must be the 1st of a month")
 
     end_month = period_start.month + 1
     end_year = period_start.year
@@ -50,6 +60,31 @@ def generate_vat_period(cursor, conn, business_id, period_start_str):
 
     print(f"Period created: {period_start.strftime('%Y-%m-%d')} to {period_end.strftime('%Y-%m-%d')} | Due: {due_date.strftime('%Y-%m-%d')}")
     return new_period_id
+
+
+def mark_period_filed(cursor, conn, period_id):
+    """
+    Marks a period as filed. A VAT3 must have been generated for it first.
+    Filed periods no longer appear as overdue and no longer accept new transactions.
+    Returns True if the status changed.
+    """
+
+    cursor.execute("SELECT status FROM vat_periods WHERE period_id = ?", (period_id,))
+    row = cursor.fetchone()
+    if row is None:
+        raise ValueError(f"Period {period_id} does not exist")
+    if row[0] == "filed":
+        print(f"Period {period_id} is already marked as filed")
+        return False
+
+    cursor.execute("SELECT 1 FROM vat3_returns WHERE period_id = ?", (period_id,))
+    if cursor.fetchone() is None:
+        raise ValueError("Generate the VAT3 report for this period before marking it as filed")
+
+    cursor.execute("UPDATE vat_periods SET status = 'filed' WHERE period_id = ?", (period_id,))
+    conn.commit()
+    print(f"Period {period_id} marked as filed")
+    return True
 
 
 def check_overdue_periods(cursor, business_id):

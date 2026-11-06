@@ -1,0 +1,48 @@
+erDiagram
+    businesses ||--o{ vat_periods : has
+    businesses ||--o{ invoices : owns
+    vat_periods ||--o{ invoices : contains
+    vat_periods ||--o| vat3_returns : produces
+    invoices ||--|{ transactions : "one row per VAT rate"
+    vat_rates ||--o{ transactions : applies
+
+    businesses {
+        int business_id PK
+        text business_name
+        text vat_registration_no
+    }
+    vat_periods {
+        int period_id PK
+        date period_start
+        date period_end
+        date due_date
+        text status "open or filed"
+    }
+    invoices {
+        int invoice_id PK
+        text counterparty_name
+        text invoice_number
+        date invoice_date
+        text file_hash
+        text status
+    }
+    transactions {
+        int transaction_id PK
+        text transaction_type "sale or purchase"
+        text supply_type "domestic, intra_eu, export"
+        decimal net_amount
+        decimal vat_amount
+        bool is_reverse_charge
+    }
+    vat_rates {
+        int rate_id PK
+        text rate_name
+        decimal rate_percentage
+    }
+    vat3_returns {
+        int return_id PK
+        decimal T1_vat_on_sales
+        decimal T2_vat_on_purchases
+        decimal T3_vat_payable
+        decimal T4_vat_repayable
+    }

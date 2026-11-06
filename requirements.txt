@@ -1,7 +1,10 @@
-# Irish VAT3 Compliance Tool — Dependencies
-# All modules used are part of the Python standard library.
-# No external packages required.
+# Irish VAT3 Compliance Tool
+# Core tool (steps 1-2): Python standard library only.
+# Photo import (steps 3-4):
+pytesseract
+Pillow
+openpyxl
 
-# sqlite3  — built-in
-# datetime — built-in
-# calendar — built-in
+# Also needs the Tesseract OCR program installed on the machine:
+#   Colab / Ubuntu:  apt-get install tesseract-ocr
+#   Windows:         install the UB Mannheim Tesseract build, then add it to PATH

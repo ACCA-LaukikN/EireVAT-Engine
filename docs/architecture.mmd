@@ -1,0 +1,33 @@
+flowchart TD
+    subgraph IN["Ways to enter data"]
+        direction LR
+        CLI["main.py<br/>interactive menu"]
+        CSV["load_dummy_invoices.py<br/>CSV loader"]
+        BATCH["batch_import.py<br/>folder of invoice photos"]
+    end
+
+    subgraph PHOTO["Photo import"]
+        direction LR
+        ORCH["import_invoice.py<br/>stage and commit"]
+        EXT["invoice_extractor.py<br/>OCR and parsing"]
+        VAL["invoice_validator.py<br/>checks before saving"]
+        REV["invoice_review.py<br/>Excel review sheet"]
+        ORCH --> EXT
+        ORCH --> VAL
+        ORCH --> REV
+    end
+
+    subgraph CORE["Core VAT logic"]
+        direction LR
+        CALC["vat_calculator.py<br/>add_invoice, calculate_vat3,<br/>generate_vat3_report"]
+        PER["period_manager.py<br/>periods, filed status, overdue"]
+    end
+
+    DB[("vat3.db<br/>SQLite")]
+
+    CLI --> PHOTO
+    BATCH --> PHOTO
+    CLI --> CORE
+    CSV --> CORE
+    PHOTO --> CORE
+    CORE --> DB

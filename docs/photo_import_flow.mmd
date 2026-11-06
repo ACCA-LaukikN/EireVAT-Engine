@@ -1,0 +1,14 @@
+flowchart TD
+    A["Invoice photo<br/>.jpg or .png"] --> B["Clean up image<br/>Pillow: greyscale, contrast, enlarge"]
+    B --> C["OCR<br/>Tesseract reads the text"]
+    C --> D["Parse fields<br/>supplier, invoice no, date,<br/>VAT number, rate lines, totals"]
+    D --> E["Map each VAT rate to a rate ID<br/>find the VAT period from the date"]
+    E --> F{"Validate"}
+    F --> G["Write review workbook<br/>Excel: Review, Issues, Raw OCR tabs"]
+    G --> H[/"You compare with the original<br/>and correct the yellow cells"/]
+    H --> I["Read corrected workbook"]
+    I --> J{"Validate again"}
+    J -- "errors" --> H
+    J -- "passes" --> K["add_invoice()<br/>one invoice header +<br/>one row per VAT rate"]
+    K --> L[("SQLite")]
+    L --> M["calculate_vat3()<br/>T1 T2 T3 T4 E1 E2"]
